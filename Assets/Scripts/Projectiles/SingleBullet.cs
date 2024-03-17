@@ -9,17 +9,18 @@ public class SingleBullet : NetworkBehaviour
 
     [SerializeField] float lifeSpan = 2;
 
-    // Start is called before the first frame update
     void Start()
     {
         rb.velocity = transform.up * bulletSpeed;
         Invoke("KillBullet", lifeSpan);
-
     }
 
     void KillBullet()
     {
-        KillBulletServerRpc();    
+        if (IsOwner)
+        {
+            KillBulletServerRpc();
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
