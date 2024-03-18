@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
@@ -17,6 +19,7 @@ public class PlayerController : NetworkBehaviour, IPlayerActions
     private Transform turretPivotTransform;
 
     public UnityAction<bool> onFireEvent;
+    public UnityAction onMissileEvent;
 
     [Header("Settings")]
     [SerializeField] private float movementSpeed = 5f;
@@ -27,7 +30,7 @@ public class PlayerController : NetworkBehaviour, IPlayerActions
 
     public override void OnNetworkSpawn()
     {
-            if(!IsOwner) return;
+        if(!IsOwner) return;
 
         if (_playerInput == null)
         {
@@ -81,5 +84,46 @@ public class PlayerController : NetworkBehaviour, IPlayerActions
     public void IncreaseScore()
     {
         Score.Value += 1;
+    }
+
+    public void OnMissile(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            onMissileEvent.Invoke();
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void StunServerRpc(float stunTime)
+    {
+        StunClientRpc(stunTime);
+    }
+
+    [ClientRpc]
+    private void StunClientRpc(float stunTime)
+    {
+        ActuallyStun(stunTime);
+    }
+
+    private async void ActuallyStun(float stunTime) 
+    {
+        if (IsOwner)
+        {
+            Score.Value -= 1;
+            _playerInput.Player.Disable();
+        }
+
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        var ogColor = spriteRenderer.color;
+        spriteRenderer.color = Color.red;
+
+        await Task.Delay((int)(stunTime * 1000));
+
+        if (IsOwner)
+        {
+            _playerInput.Player.Enable();
+        }
+        spriteRenderer.color = ogColor;
     }
 }

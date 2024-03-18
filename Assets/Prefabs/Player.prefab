@@ -77,6 +77,8 @@ MonoBehaviour:
   movementSpeed: 5
   shipRotationSpeed: 100
   turretRotationSpeed: 4
+  Score:
+    m_InternalValue: 0
 --- !u!212 &214913618731102450
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -202,6 +204,7 @@ MonoBehaviour:
   playerController: {fileID: 5210888314493061672}
   bulletPrefab: {fileID: 1251397551836638185, guid: 2879fa5cf33f14846b25324ba10feaaa, type: 3}
   bulletSpawnPoint: {fileID: 662702000496822912}
+  missilePrefab: {fileID: 5871099467980355301, guid: 404db50ad0e300a46923095704d8deea, type: 3}
 --- !u!114 &1795185787946825641
 MonoBehaviour:
   m_ObjectHideFlags: 0
