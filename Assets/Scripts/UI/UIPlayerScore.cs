@@ -13,9 +13,9 @@ public class UIPlayerScore : MonoBehaviour
 
     public int ClientId { get; private set; }
 
-    public void Setup(int clientID)
+    public void Setup(string name, int clientID)
     {
-        idText.text = clientID.ToString();
+        idText.text = name;
         ClientId = clientID;
     }
 

@@ -32,20 +32,35 @@ public class UILeaderboard : NetworkBehaviour
         var players = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
         for (int i = 0; i < players.Length; i++)
         {
-            if (!playerControllers.Contains(players[i]))
+            if (playerControllers.Contains(players[i]))
             {
-                var score = Instantiate(playerScore, transform);
-                score.Setup((int)players[i].OwnerClientId);
-
-                scores.Add(score);
-                playerControllers.Add(players[i]);
-                players[i].Score.OnValueChanged += (oldValue, newValue) => 
-                {
-                    score.SetScore(newValue);
-
-                    SortScores();
-                };
+                continue;
             }
+
+            playerControllers.Add(players[i]);
+
+            var score = Instantiate(playerScore, transform);
+
+            string name = players[i].GetComponent<PlayerName>().NameNetworkVariable.Value.ToString();
+            if (string.IsNullOrEmpty(name))
+            {
+                await Task.Delay(1000);
+
+                name = players[i].GetComponent<PlayerName>().NameNetworkVariable.Value.ToString();
+                if (string.IsNullOrEmpty(name))
+                {
+                    name = "The guy with the connection error";
+                }
+            }
+            score.Setup(name, (int)players[i].OwnerClientId);
+
+            scores.Add(score);
+            players[i].Score.OnValueChanged += (oldValue, newValue) =>
+            {
+                score.SetScore(newValue);
+
+                SortScores();
+            };
         }
     }
 
