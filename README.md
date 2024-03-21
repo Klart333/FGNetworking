@@ -8,4 +8,6 @@ Overall score: 6
 13. Live scoreboard
 - Mostly worked with the bullets (SingleBullet), mines (StandardMine) and of course the leaderboard ui I made (UILeaderboard & UIPlayerScore). Made the bullets into NetworkObjects so I know which player shot and incremented a network variable on the correct player, that's pretty much it. 
 
+Also there's player names now :)
+
 Thanks for your time!
