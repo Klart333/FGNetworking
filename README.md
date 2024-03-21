@@ -2,7 +2,7 @@ Overall score: 6
 
 (I kinda misunderstood the game at first, I did not know you could move. I thought the game was a competition to shoot the most mines, which is what I have done. Don't ask how I never noticed that the ships move, I really don't know... But also I think the game makes more sense this way anyway, without making Player Death, Respawns or Health Packs etc.)
 
-1.
+1. Overhead Names
 - Some names 👍
 
 12. Homing Missiles
